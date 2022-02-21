@@ -1,0 +1,33 @@
+from rest_framework import serializers
+
+from .models import Category, Product
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = (
+            "id",
+            "name",
+            "get_absolute_url",
+            "description",
+            "price",
+            "get_image",
+            "get_thumbnail",
+            "quantity"
+        )
+    # def update(self, instance, validated_data): 
+    #     instance.quantity = validated_data.get('quantity', instance.quantity)
+    #     instance.save()
+    #     return instance
+
+class CategorySerializer(serializers.ModelSerializer):
+    products = ProductSerializer(many=True)
+
+    class Meta:
+        model = Category
+        fields = (
+            "id",
+            "name",
+            "get_absolute_url",
+            "products",
+        )
